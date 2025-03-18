@@ -6,6 +6,8 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -38,14 +40,15 @@ fun CalculatorApp() {
         modifier = Modifier
             .fillMaxSize().padding(bottom = 5.dp, top = 30.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
-    ) {
+        verticalArrangement = Arrangement.Center,
 
+    ) {
+        val scrollState = rememberScrollState() // 创建滚动状态
         Column(
             modifier = Modifier.weight(1.0f)
                 .fillMaxWidth()
                 .fillMaxHeight()
-                .padding(end = 20.dp),
+                .padding(end = 20.dp).verticalScroll(scrollState),
             horizontalAlignment = Alignment.End,
             verticalArrangement = Arrangement.Bottom
         ){
@@ -54,13 +57,15 @@ fun CalculatorApp() {
                 fontSize = 32.sp,
                 fontWeight = FontWeight.Bold,
                 color = Color.Gray,
-                modifier = Modifier.padding(8.dp)
+                modifier = Modifier.padding(8.dp),
+                lineHeight = 40.sp
             )
             Text(
                 text = "$result",
                 fontSize = 64.sp,
                 fontWeight = FontWeight.Bold,
-                modifier = Modifier.padding(8.dp)
+                modifier = Modifier.padding(8.dp),
+                lineHeight = 72.sp
             )
         }
 
@@ -77,10 +82,18 @@ fun CalculatorApp() {
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
                 modifier = Modifier.fillMaxWidth()
             ) {
-                CalculatorButton("C", Color.LightGray, Modifier.weight(1f)) { input = ""; result = "0" }
-                CalculatorButton("±", Color.LightGray, Modifier.weight(1f)) { input = if (input.startsWith("-")) input.drop(1) else "-$input" }
-                CalculatorButton("%", Color.LightGray, Modifier.weight(1f)) { input = (input.toDoubleOrNull()?.div(100) ?: 0.0).toString() }
-                CalculatorButton("÷", Color.LightGray, Modifier.weight(1f)) { input += " ÷ " }
+                CalculatorButton("C", Color(0xfffa5252), Modifier.weight(1f),textColor = Color.White) {
+                    input = ""; result = "0"
+                }
+                CalculatorButton("±", Color(0xff495057), Modifier.weight(1f) ,textColor = Color.White) {
+                    input = if (input.startsWith("-")) input.drop(1) else "-$input"
+                }
+                CalculatorButton("%", Color(0xff495057), Modifier.weight(1f) ,textColor = Color.White) {
+                    input = (input.toDoubleOrNull()?.div(100) ?: 0.0).toString()
+                }
+                CalculatorButton("÷", Color(0xfffab005), Modifier.weight(1f) ,textColor = Color.White) {
+                    input += " ÷ "
+                }
             }
 
             // 第二行：7, 8, 9, ×
@@ -91,7 +104,7 @@ fun CalculatorApp() {
                 CalculatorButton("7", modifier = Modifier.weight(1f)) { input += "7" }
                 CalculatorButton("8", modifier = Modifier.weight(1f)) { input += "8" }
                 CalculatorButton("9", modifier = Modifier.weight(1f)) { input += "9" }
-                CalculatorButton("×", Color.LightGray, Modifier.weight(1f)) { input += " × " }
+                CalculatorButton("×", Color(0xfffab005), Modifier.weight(1f), textColor = Color.White) { input += " × " }
             }
 
             // 第三行：4, 5, 6, -
@@ -102,7 +115,7 @@ fun CalculatorApp() {
                 CalculatorButton("4", modifier = Modifier.weight(1f)) { input += "4" }
                 CalculatorButton("5", modifier = Modifier.weight(1f)) { input += "5" }
                 CalculatorButton("6", modifier = Modifier.weight(1f)) { input += "6" }
-                CalculatorButton("-", Color.LightGray, Modifier.weight(1f)) { input += " - " }
+                CalculatorButton("-", Color(0xfffab005), Modifier.weight(1f), textColor = Color.White) { input += " - " }
             }
 
             // 第四行：1, 2, 3, +
@@ -113,7 +126,7 @@ fun CalculatorApp() {
                 CalculatorButton("1", modifier = Modifier.weight(1f)) { input += "1" }
                 CalculatorButton("2", modifier = Modifier.weight(1f)) { input += "2" }
                 CalculatorButton("3", modifier = Modifier.weight(1f)) { input += "3" }
-                CalculatorButton("+", Color.LightGray, Modifier.weight(1f)) { input += " + " }
+                CalculatorButton("+", Color(0xfffab005), Modifier.weight(1f), textColor = Color.White) { input += " + " }
             }
 
             // 第五行：0, ., =
@@ -153,7 +166,7 @@ fun CalculatorButton(
              .aspectRatio(1f)
             .padding(4.dp)
     ) {
-        Text(text = text, fontSize = 20.sp, color = textColor)
+        Text(text = text, fontSize = 30.sp, color = textColor)
     }
 }
 
@@ -173,7 +186,7 @@ fun Calculator0Button(
             .height(64.dp)
             .padding(4.dp)
     ) {
-        Text(text = text, fontSize = 20.sp, color = textColor)
+        Text(text = text, fontSize = 30.sp, color = textColor)
     }
 }
 
