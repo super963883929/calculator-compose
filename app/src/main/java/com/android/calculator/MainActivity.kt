@@ -1,6 +1,7 @@
 package com.android.calculator
 
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -61,7 +62,7 @@ fun CalculatorApp() {
                 lineHeight = 40.sp
             )
             Text(
-                text = "$result",
+                text = result,
                 fontSize = 64.sp,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.padding(8.dp),
@@ -155,7 +156,7 @@ fun CalculatorApp() {
 fun CalculatorButton(
     text: String,
     color: Color = Color.LightGray,
-    modifier: Modifier = Modifier,
+    @SuppressLint("ModifierParameter") modifier: Modifier = Modifier,
     textColor: Color = Color.Black,
     onClick: () -> Unit
 ) {
@@ -174,7 +175,7 @@ fun CalculatorButton(
 fun Calculator0Button(
     text: String,
     color: Color = Color.LightGray,
-    modifier: Modifier = Modifier,
+    @SuppressLint("ModifierParameter") modifier: Modifier = Modifier,
     textColor: Color = Color.Black,
     onClick: () -> Unit
 ) {
@@ -241,7 +242,7 @@ fun evaluateExpression(expression: String): Double {
         fun parseFactor(): Double {
             if (eat('+'.code)) return parseFactor()
             if (eat('-'.code)) return -parseFactor()
-            var x: Double
+            val x: Double
             val startPos = pos
             if (eat('('.code)) {
                 x = parseExpression()
